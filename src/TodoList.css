@@ -1,0 +1,36 @@
+.List {
+	display: inline-block;
+	width: 23%;
+	min-width: 200px;
+	height: 300px;
+	overflow-y: auto;
+	border: 1.5px solid black;
+	margin-left: 5%;
+	margin-right: 5%;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	list-style: none;
+}
+
+.List h3 {
+	height: 25px;
+	border-bottom: 1.5px solid grey;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-align: center;
+}
+
+.List input {
+	margin-top: 10px;
+	margin-left: 10%;
+	margin-right: 10%;
+	width: 80%;
+	height: 10px;
+	border: none;
+	border-bottom: 1px solid grey;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	text-align: center;
+}
