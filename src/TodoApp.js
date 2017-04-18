@@ -181,6 +181,9 @@ class TodoApp extends Component {
 
     return (
       <section className="todoapp">
+        <header>
+          <h1>TODO LIST</h1>
+        </header>
         <CountDisplay Lists={this.state.TodoLists}/>
         <input className="new-todo" placeholder="add new list here"
           value={this.state.Input}
