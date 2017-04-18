@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './TodoApp.css';
 import TodoList from './TodoList';
-//import CountDisplay from './CountDisplay';
+import CountDisplay from './CountDisplay';
 
 class TodoApp extends Component {
   constructor() {
@@ -9,8 +9,6 @@ class TodoApp extends Component {
     this.state = {
       TodoLists: [],
       NumOfLists: 0,
-      NumOfUndones: 0,
-      NumOfDones: 0,
       Input: ''
     };
 
@@ -24,6 +22,7 @@ class TodoApp extends Component {
     this.ReadItemInput = this.ReadItemInput.bind(this);
     this.AddItem = this.AddItem.bind(this);
     this.CheckItem = this.CheckItem.bind(this);
+    this.UncheckItem = this.UncheckItem.bind(this);
     this.DeleteItem = this.DeleteItem.bind(this);
   }
 
@@ -128,13 +127,28 @@ class TodoApp extends Component {
     this.setState({
       TodoLists: temp
     });
-    this.setState({
-      NumOfUndones: this.state.NumOfUndones + 1
-    });
   }
 
-  DeleteItem(e) {
-
+  DeleteItem(listid,itemid) {
+    const temp = this.state.TodoLists;
+    const Newitems = [];
+    let target = false;
+    for(let i = 0; i<temp[listid].items.length; i++) {
+      if(temp[listid].items[i].itemid!==itemid){
+        if(target) {
+          temp[listid].items[i].itemid -= 1;
+        }
+        Newitems.push(temp[listid].items[i]);
+      }
+      else{
+        target = true;
+      }
+    };
+    temp[listid].items = Newitems;
+    temp[listid].NumOfItems -= 1;
+    this.setState({
+      TodoLists: temp
+    });
   }
 
   CheckItem(listid,itemid) {
@@ -143,8 +157,13 @@ class TodoApp extends Component {
     this.setState({
       TodoLists: temp
     });
+  }
+
+  UncheckItem(listid,itemid) {
+    const temp = this.state.TodoLists;
+    temp[listid].items[itemid].done = 0;
     this.setState({
-      NumOfUndones: this.state.NumOfUndones - 1
+      TodoLists: temp
     });
   }
 
@@ -156,11 +175,13 @@ class TodoApp extends Component {
        EditListTitle={this.EditListTitle} DeleteList={this.DeleteList}
        AddItem={this.AddItem} ReadItemInput={this.ReadItemInput}
        DeleteItem={this.DeleteItem} CheckItem={this.CheckItem}
+       UncheckItem={this.UncheckItem}
       />
     );
 
     return (
       <section className="todoapp">
+        <CountDisplay Lists={this.state.TodoLists}/>
         <input className="new-todo" placeholder="add new list here"
           value={this.state.Input}
           onChange={this.ReadInput}

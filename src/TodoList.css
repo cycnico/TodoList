@@ -26,8 +26,9 @@
 	display: inline-block;
 	position: relative;
 	overflow-x: hidden;
+	margin-left: 35px;
 	top: -1px;
-	width: 75%;
+	width: 60%;
 	height: 100%;
 }
 
@@ -68,7 +69,8 @@
 	margin-left: 10%;
 	margin-right: 10%;
 	width: 80%;
-	height: 10px;
+	height: 14px;
+	font-size: 14px;
 	border: none;
 	border-bottom: 1.5px solid grey;
 	padding-top: 5px;

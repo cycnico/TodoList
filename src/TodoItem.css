@@ -21,6 +21,24 @@
 	height: 20px;
 }
 
+.UncheckButton {
+	display: inline-block;
+	position: relative;
+	margin-left: 2px;
+	margin-right: 2px;
+	width: 20px;
+	height: 20px;
+}
+
+.DeleteButton {
+	display: inline-block;
+	position: relative;
+	margin-left: 2px;
+	margin-right: 2px;
+	width: 20px;
+	height: 20px;
+}
+
 .CheckImage {
 	width: 20px;
 	height: 20px;
@@ -33,10 +51,27 @@
 	margin: 0px;
 }
 
-.Itemname{
+.DeleteImage {
+	width: 20px;
+	height: 20px;
+	margin: 0px;
+}
+
+.Active {
 	display: inline-block;
 	overflow-x: hidden;
 	position: relative;
 	width: 70%;
 	top: -2px;
+}
+
+.Disable {
+	display: inline-block;
+	overflow-x: hidden;
+	position: relative;
+	width: 70%;
+	top: -2px;
+	text-decoration: line-through;
+	font-style: italic;
+	color: grey;
 }

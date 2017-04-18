@@ -2,18 +2,21 @@ import React, { Component } from 'react';
 import './TodoItem.css';
 import Check from './../public/check.png';
 import Uncheck from './../public/uncheck.png';
+import DeleteTodo from './../public/deleteitem.png';
 
 class TodoItem extends Component {
   constructor(props) {
     super(props);
 
-    this.CheckBox = this.CheckBox.bind(this);
-    this.Body = this.Body.bind(this);
+    this.CheckButton = this.CheckButton.bind(this);
+    this.ItemBody = this.ItemBody.bind(this);
+    this.DeleteButton = this.DeleteButton.bind(this);
     this.CheckItem = this.CheckItem.bind(this);
+    this.UncheckItem = this.UncheckItem.bind(this);
     this.DeleteItem = this.DeleteItem.bind(this);
   }
 
-  CheckBox() {
+  CheckButton() {
     if(this.props.Item.done===0) {
       return(
         <button className="UncheckButton" onClick={this.CheckItem}>
@@ -30,14 +33,32 @@ class TodoItem extends Component {
     }
   }
 
-  Body() {
+  ItemBody() {
+    let temp="";
+    if(this.props.Item.done===0)
+      temp="Active";
+    else
+      temp="Disable"
+
     return(
-      <label className="Itemname">{this.props.Item.name}</label>
+      <label className={temp}>{this.props.Item.name}</label>
+    );
+  }
+
+  DeleteButton() {
+    return(
+      <button className="DeleteButton" onClick={this.DeleteItem}>
+        <img className="DeleteImage" src={DeleteTodo} alt="delete todo"/>
+      </button>
     );
   }
 
   CheckItem() {
     this.props.CheckItem(this.props.Item.itemid);
+  }
+
+  UncheckItem() {
+    this.props.UncheckItem(this.props.Item.itemid);
   }
 
   DeleteItem() {
@@ -48,8 +69,9 @@ class TodoItem extends Component {
   render() {
     return (
       <div className="Item">
-        {this.CheckBox()}
-        {this.Body()}
+        {this.CheckButton()}
+        {this.ItemBody()}
+        {this.DeleteButton()}
       </div>
     );
   }

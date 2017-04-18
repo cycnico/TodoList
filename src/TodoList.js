@@ -18,6 +18,7 @@ class TodoList extends Component {
     this.L_ReadItemInput = this.L_ReadItemInput.bind(this);
     this.L_DeleteItem = this.L_DeleteItem.bind(this);
     this.L_CheckItem = this.L_CheckItem.bind(this);
+    this.L_UncheckItem = this.L_UncheckItem.bind(this);
   }
 
   L_ListTitle() {
@@ -89,11 +90,15 @@ class TodoList extends Component {
     this.props.CheckItem(this.props.List.id,itemid);
   }
 
+  L_UncheckItem(itemid) {
+    this.props.UncheckItem(this.props.List.id,itemid);
+  }
 
   render() {
     const ItemList = this.props.List.items.map((item) =>
       <TodoItem key={item.itemid} Item={item}
         DeleteItem={this.L_DeleteItem} CheckItem={this.L_CheckItem}
+        UncheckItem={this.L_UncheckItem}
       />
     );
 
