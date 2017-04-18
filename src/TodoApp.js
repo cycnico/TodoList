@@ -9,14 +9,19 @@ class TodoApp extends Component {
     this.state = {
       TodoLists: [],
       NumOfLists: 0,
+      NumOfUndones: 0,
+      NumOfDones: 0,
       Input: ''
     };
 
     this.ReadInput = this.ReadInput.bind(this);
     this.AddList = this.AddList.bind(this);
-    this.DeleteList = this.DeleteList.bind(this);
+    this.StartEdit = this.StartEdit.bind(this);
+    this.EndEdit = this.EndEdit.bind(this);
     this.EditListTitle = this.EditListTitle.bind(this);
+    this.DeleteList = this.DeleteList.bind(this);
 
+    this.ReadItemInput = this.ReadItemInput.bind(this);
     this.AddItem = this.AddItem.bind(this);
     this.CheckItem = this.CheckItem.bind(this);
     this.DeleteItem = this.DeleteItem.bind(this);
@@ -34,7 +39,10 @@ class TodoApp extends Component {
         const newlist = {
           id: this.state.NumOfLists,
           title: this.state.Input,
-          items: []
+          editmode: 0,
+          iteminput: '',
+          items: [],
+          NumOfItems: 0
         };
         temp.push(newlist);
         this.setState({
@@ -50,44 +58,109 @@ class TodoApp extends Component {
     }
   }
 
-  DeleteList(e) {
-    //const temp = this.state.TodoLists;
+  StartEdit(listid) {
+    const temp = this.state.TodoLists;
+    temp[listid].editmode = 1;
+    this.setState({
+      TodoLists: temp
+    });
+  }
+
+  EndEdit(listid) {
+    const temp = this.state.TodoLists;
+    temp[listid].editmode = 0;
+    this.setState({
+      TodoLists: temp
+    });
+  }
+
+  EditListTitle(listid,newtitle) {
+    const temp = this.state.TodoLists;
+    temp[listid].title = newtitle;
+    this.setState({
+      TodoLists: temp
+    });
+  }
+
+  DeleteList(listid) {
+    const temp = this.state.TodoLists;
+    const NewLists = [];
+    let target = false;
+    for(let i = 0; i<temp.length; i++) {
+      if(temp[i].id!==listid){
+        if(target) {
+          temp[i].id -= 1;
+        }
+        NewLists.push(temp[i]);
+      }
+      else{
+        target = true;
+      }
+    };
+
+    this.setState({
+      TodoLists: NewLists
+    });
+
     this.setState({
       NumOfLists: this.state.NumOfLists - 1
     });
   }
 
-  EditListTitle(e) {
-
+  ReadItemInput(listid,iteminput) {
+    const temp = this.state.TodoLists;
+    temp[listid].iteminput = iteminput;
+    this.setState({
+      TodoLists: temp
+    });
   }
 
-  AddItem(e) {
-    
-
+  AddItem(listid,itemname) {
+    const temp = this.state.TodoLists;
+    const newitem = {
+      itemid: temp[listid].NumOfItems,
+      name: itemname,
+      done: 0
+    };
+    temp[listid].items.push(newitem);
+    temp[listid].iteminput = '';
+    temp[listid].NumOfItems += 1;
+    this.setState({
+      TodoLists: temp
+    });
+    this.setState({
+      NumOfUndones: this.state.NumOfUndones + 1
+    });
   }
 
   DeleteItem(e) {
 
   }
 
-  CheckItem(e) {
-
+  CheckItem(listid,itemid) {
+    const temp = this.state.TodoLists;
+    temp[listid].items[itemid].done = 1;
+    this.setState({
+      TodoLists: temp
+    });
+    this.setState({
+      NumOfUndones: this.state.NumOfUndones - 1
+    });
   }
-
-
 
 
   render() {
     const Lists = this.state.TodoLists.map((Todo) =>
-      <TodoList key={Todo.id} List={Todo} DeleteList={this.DeleteList}
-       AddItem={this.AddItem} DeleteItem={this.DeleteItem} CheckItem={this.CheckItem}
-       EditListTitle={this.EditListTitle}
+      <TodoList key={Todo.id} List={Todo}
+       StartEdit={this.StartEdit} EndEdit={this.EndEdit}
+       EditListTitle={this.EditListTitle} DeleteList={this.DeleteList}
+       AddItem={this.AddItem} ReadItemInput={this.ReadItemInput}
+       DeleteItem={this.DeleteItem} CheckItem={this.CheckItem}
       />
     );
 
     return (
       <section className="todoapp">
-
         <input className="new-todo" placeholder="add new list here"
           value={this.state.Input}
           onChange={this.ReadInput}

@@ -1,108 +1,113 @@
 import React, { Component } from 'react';
 import './TodoList.css';
-//import TodoItem from './TodoItem';
+import TodoItem from './TodoItem';
+import Edit from './../public/edit.png';
+import Delete from './../public/delete.png';
 
 class TodoList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      itemnum: 0,
-      editmode: 0
-    };
 
-    /*
-    this.ItemInput = this.ItemInput.bind(this);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.handleCheckItem = this.handleCheckItem.bind(this);
-    this.handleDeleteItem = this.handleDeleteItem.bind(this);
-    this.handleDeleteListOnClick = this.handleDeleteListOnClick.bind(this);
-    this.handleEditListOnClick = this.handleEditListOnClick.bind(this);
-    this.handleEditChange = this.handleEditChange.bind(this);
-    this.handleEditKeyDown = this.handleEditKeyDown.bind(this);*/
+    this.L_ListTitle = this.L_ListTitle.bind(this);
+    this.L_StartEdit = this.L_StartEdit.bind(this);
+    this.L_EditListTitle = this.L_EditListTitle.bind(this);
+    this.L_EndEdit = this.L_EndEdit.bind(this);
+    this.L_DeleteList = this.L_DeleteList.bind(this);
+
+    this.L_AddItem = this.L_AddItem.bind(this);
+    this.L_ReadItemInput = this.L_ReadItemInput.bind(this);
+    this.L_DeleteItem = this.L_DeleteItem.bind(this);
+    this.L_CheckItem = this.L_CheckItem.bind(this);
   }
 
-  ItemInput(e) {
-    this.setState({ editinputvalue: e.target.value });
-  }
-
-  /*
-  handleEditKeyDown(e) {
-    switch (e.keyCode) {
-      case 13:
-        e.preventDefault();
-        this.props.editListName(this.props.listContent.listid,this.state.editinputvalue);
-        this.setState({ editmode: 0 });
-        break;
+  L_ListTitle() {
+    if(this.props.List.editmode===0){
+      return(
+        <section className="ListTitle">
+          <div className="TitleHeader">{this.props.List.title}</div>
+          <button className="ImageButton" onClick={this.L_StartEdit}>
+            <img className="EditImage" src={Edit} alt="edit title"/>
+          </button>
+          <button className="ImageButton" onClick={this.L_DeleteList}>
+            <img className="DeleteImage" src={Delete} alt="delete list"/>
+          </button>
+        </section>
+      );
+    }
+    else {
+      return(
+        <section className="ListTitle">
+          <input className="TitleInput" value={this.props.List.title}
+            onChange={this.L_EditListTitle} onKeyDown={this.L_EndEdit}>
+          </input>
+          <button className="ImageButton" onClick={this.L_StartEdit}>
+            <img className="EditImage" src={Edit} alt="Edit List Title"/>
+          </button>
+          <button className="ImageButton" onClick={this.L_DeleteList}>
+            <img className="DeleteImage" src={Delete} alt="delete list"/>
+          </button>
+        </section>
+      );
     }
   }
 
-  handleChange(e) {
-    this.setState({ inputvalue: e.target.value });
+  L_StartEdit() {
+    this.props.StartEdit(this.props.List.id);
   }
 
-  handleKeyDown(e) {
-    switch (e.keyCode) {
-      case 13:
-        e.preventDefault();
-        this.props.addItem(this.props.listContent.listid,this.state.inputvalue,this.state.itemnum);
-        this.state.itemnum += 1;
-        this.setState({ inputvalue: '' });
-        break;
+  L_EditListTitle(e) {
+    this.props.EditListTitle(this.props.List.id,e.target.value);
+  }
+
+  L_EndEdit(e) {
+    if(e.keyCode===13){
+      this.props.EndEdit(this.props.List.id);
     }
   }
 
-  EditListButton() {
-    return (
-      <button
-        className="delete_list"
-        onClick={() => this.props.handleRemoveList(this.props.id)}
-      >
-        <img
-          src={ }
-          className="delete-svg"
-          alt="edit"
-        />
-      </button>
-    );
+  L_DeleteList() {
+    this.props.DeleteList(this.props.List.id);
   }
 
-  DeleteListButton() {
-    return (
-      <button
-        className="delete_list"
-        onClick={() => this.props.DeleteList(this.props.id)}
-      >
-        <img
-          src={ }
-          className="delete-svg"
-          alt="edit"
-        />
-      </button>
-    );
+  L_AddItem(e) {
+    if(e.keyCode===13){
+      if(e.target.value!==''){
+        this.props.AddItem(this.props.List.id, e.target.value);
+      }
+    }
   }
 
-  handleEditListOnClick(){
-    this.setState({ editmode: 1 });
+  L_ReadItemInput(e) {
+    this.props.ReadItemInput(this.props.List.id, e.target.value);
   }
-  handleCheckItem(itemid, check) {
-    this.props.checkItem(this.props.listContent.listid, itemid, check);
+
+  L_DeleteItem(itemid) {
+    this.props.DeleteItem(this.props.List.id,itemid);
   }
-  handleDeleteItem(itemid) {
-    this.props.deleteItem(this.props.listContent.listid, itemid);
+
+  L_CheckItem(itemid) {
+    this.props.CheckItem(this.props.List.id,itemid);
   }
-  handleDeleteListOnClick(){
-    this.props.DeleteList(this.props.listContent.listid);
-  }
-  */
+
 
   render() {
-    const list = this.props.List;
+    const ItemList = this.props.List.items.map((item) =>
+      <TodoItem key={item.itemid} Item={item}
+        DeleteItem={this.L_DeleteItem} CheckItem={this.L_CheckItem}
+      />
+    );
+
     return (
       <div className="List">
-        <h3>{this.props.List.title}</h3>
-        <input placeholder="add new todo"
-          onKeyDown={this.AddItem}
-          autoFocus/>
+        {this.L_ListTitle()}
+        <input className="ItemInput" placeholder="add new todo"
+          value={this.props.List.iteminput}
+          onChange={this.L_ReadItemInput}
+          onKeyDown={this.L_AddItem}
+          />
+        <div>
+          {ItemList}
+        </div>
       </div>
     );
   }

@@ -12,24 +12,65 @@
 	list-style: none;
 }
 
-.List h3 {
+
+.ListTitle {
 	height: 25px;
 	border-bottom: 1.5px solid grey;
 	margin-top: 0px;
 	margin-bottom: 0px;
 	padding-top: 10px;
-	padding-bottom: 10px;
 	text-align: center;
 }
 
-.List input {
+.TitleHeader {
+	display: inline-block;
+	position: relative;
+	overflow-x: hidden;
+	top: -1px;
+	width: 75%;
+	height: 100%;
+}
+
+.TitleInput {
+	display: inline-block;
+	position: relative;
+	overflow-x: hidden;
+	top: -8px;
+	width: 75%;
+	height: 100%;
+}
+
+.ImageButton {
+	display: inline-block;
+	position: relative;
+	margin-left: 2px;
+	margin-right: 2px;
+	top: -7px;
+	width: 20px;
+	height: 20px;
+}
+
+.EditImage {
+	width: 20px;
+	height: 20px;
+	margin: 0px;
+}
+
+.DeleteImage {
+	width: 20px;
+	height: 20px;
+	margin: 0px;
+}
+
+.ItemInput {
 	margin-top: 10px;
+	margin-bottom: 10px;
 	margin-left: 10%;
 	margin-right: 10%;
 	width: 80%;
 	height: 10px;
 	border: none;
-	border-bottom: 1px solid grey;
+	border-bottom: 1.5px solid grey;
 	padding-top: 5px;
 	padding-bottom: 5px;
 	text-align: center;

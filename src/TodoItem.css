@@ -1,0 +1,42 @@
+.Item {
+	width: 80%;
+	height: 20px;
+	padding: 5px;
+	padding-top: 6px;
+	margin-left: 7%;
+	margin-right: 0%;
+	margin-top: 6px;
+	margin-bottom: 6px;
+	border-radius: 12px;
+	border: 1px solid grey;
+	text-align: center;
+}
+
+.CheckButton {
+	display: inline-block;
+	position: relative;
+	margin-left: 2px;
+	margin-right: 2px;
+	width: 20px;
+	height: 20px;
+}
+
+.CheckImage {
+	width: 20px;
+	height: 20px;
+	margin: 0px;
+}
+
+.UncheckImage {
+	width: 20px;
+	height: 20px;
+	margin: 0px;
+}
+
+.Itemname{
+	display: inline-block;
+	overflow-x: hidden;
+	position: relative;
+	width: 70%;
+	top: -2px;
+}

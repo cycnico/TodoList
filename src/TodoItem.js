@@ -1,53 +1,55 @@
 import React, { Component } from 'react';
-//import './TodoItem.css';
-//import './materialize.min.css';
-//import './materialize.css';
+import './TodoItem.css';
+import Check from './../public/check.png';
+import Uncheck from './../public/uncheck.png';
 
 class TodoItem extends Component {
-  constructor() {
-    super();
-    this.handleCheckOnClick = this.handleCheckOnClick.bind(this);
-    this.handleDeleteItemOnClick = this.handleDeleteItemOnClick.bind(this);
+  constructor(props) {
+    super(props);
+
+    this.CheckBox = this.CheckBox.bind(this);
+    this.Body = this.Body.bind(this);
+    this.CheckItem = this.CheckItem.bind(this);
+    this.DeleteItem = this.DeleteItem.bind(this);
   }
-  handleCheckOnClick(){
-    this.props.checkItem(this.props.itemContent.itemid, !this.props.itemContent.checked);
-  }
-  handleDeleteItemOnClick(){
-    this.props.deleteItem(this.props.itemContent.itemid);
-  }
-  render() {
-    let d1;
-    let d2;
-    let d;
-    if (this.props.mode === 0) { d1 = { display: 'flex' }; d2 = { display: 'flex' }; }
-    if (this.props.mode === 1) { d1 = { display: 'none' }; d2 = { display: 'flex' }; }
-    if (this.props.mode === 2) { d1 = { display: 'flex' }; d2 = { display: 'none' }; }
-    const styles1 = {
-      display: 'flex',
-      textDecoration: 'line-through',
-      alignItems: 'center',
-      width: '90%',
-      height: '100%',
-      fontSize: '100%',
-    };
-    const styles2 = {
-      display: 'flex',
-      alignItems: 'center',
-      color: 'black',
-      width: '90%',
-      height: '100%',
-      fontSize: '100%',
-    };
-    let styles;
-    if (this.props.itemContent.checked === true){ styles = styles1; d = d1; }
-    else {
-      styles = styles2; d = d2;
+
+  CheckBox() {
+    if(this.props.Item.done===0) {
+      return(
+        <button className="UncheckButton" onClick={this.CheckItem}>
+          <img className="UncheckImage" src={Uncheck} alt="click to check todo"/>
+        </button>
+      );
     }
+    else {
+      return(
+        <button className="CheckButton" onClick={this.UncheckItem}>
+          <img className="CheckImage" src={Check} alt="click to uncheck todo"/>
+        </button>
+      );
+    }
+  }
+
+  Body() {
+    return(
+      <label className="Itemname">{this.props.Item.name}</label>
+    );
+  }
+
+  CheckItem() {
+    this.props.CheckItem(this.props.Item.itemid);
+  }
+
+  DeleteItem() {
+    this.props.DeleteItem(this.props.Item.itemid);
+  }
+
+
+  render() {
     return (
-      <div className="TodoItem" style={d}>
-        <input type="checkbox" checked={this.props.itemContent.checked}  />
-        <label style={styles} className="CheckBtn" onClick={this.handleCheckOnClick} >{this.props.itemContent.itemname}</label>
-        <i className="material-icons DeleteItemBtn" onClick={this.handleDeleteItemOnClick}>delete</i>
+      <div className="Item">
+        {this.CheckBox()}
+        {this.Body()}
       </div>
     );
   }
